@@ -1,6 +1,6 @@
 // ===== CONFIGURATION =====
-// IMPORTANT: Replace this with your actual Vercel backend URL (e.g., 'https://student-api.vercel.app')
-const BACKEND_URL = 'https://student-managment-system-qsiw-git-main-santhosh-9110s-projects.vercel.app';
+// Automatically detects the backend URL
+const BACKEND_URL = window.location.origin;
 const API_BASE = `${BACKEND_URL}/api/students`;
 let currentPage = 1;
 let deleteTargetId = null;

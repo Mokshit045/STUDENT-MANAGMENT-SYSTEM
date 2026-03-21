@@ -3,12 +3,12 @@
 Follow these steps to set up your MySQL database for the Student Management System.
 
 ## 1. Install MySQL
-If you don't have MySQL installed, we recommend using one of the following:
-- **XAMPP**: Includes MariaDB (MySQL-compatible) and a web-based management tool (phpMyAdmin).
-- **MySQL Installer**: The official installer from MySQL.
+If you don't have MySQL installed, we recommend using:
+- **XAMPP**: Includes MariaDB and phpMyAdmin (Easiest for beginners).
+- **MySQL Installer**: Official tool.
 
-## 2. Create the Database
-Open your MySQL terminal or phpMyAdmin and run the following commands (or import the `schema.sql` file):
+## 2. Create the Database & Table
+Copy and paste this into your MySQL terminal (or phpMyAdmin SQL tab):
 
 ```sql
 CREATE DATABASE IF NOT EXISTS student_mgmt;
@@ -32,18 +32,20 @@ CREATE TABLE IF NOT EXISTS students (
 ```
 
 ## 3. Configure Environment Variables
-Ensure your `.env` file matches your local MySQL credentials:
+Verify your `.env` file looks like this:
 
 ```bash
 PORT=5000
 DB_HOST=localhost
 DB_USER=root
-DB_PASSWORD=your_password_here
+DB_PASSWORD=
 DB_NAME=student_mgmt
 ```
 
 ## 4. Run the Application
-1. Open your terminal in the project folder.
-2. Run `npm install` (to ensure all dependencies are installed).
-3. Run `npm start` or `npm run dev`.
-4. Access the app at `http://localhost:5000`.
+Run these commands in your project terminal:
+
+```bash
+npm install
+npm run dev
+```
