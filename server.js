@@ -12,6 +12,29 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Connect to MongoDB
+const connectDB = async () => {
+    // If connection is established or establishing, return
+    if (mongoose.connection.readyState >= 1) return;
+    
+    // Attempt connection
+    await mongoose.connect(process.env.MONGO_URI, {
+        serverSelectionTimeoutMS: 5000 // Timeout early so we don't wait 10000ms
+    });
+    console.log('✅ MongoDB connected successfully');
+};
+
+// Middleware to ensure DB connection for API requests (needed for Vercel serverless)
+app.use('/api', async (req, res, next) => {
+    try {
+        await connectDB();
+        next();
+    } catch (err) {
+        console.error('❌ MongoDB connection error:', err.message);
+        return res.status(500).json({ success: false, message: 'Database connection failed' });
+    }
+});
+
 // Serve static frontend files
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -28,29 +51,6 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Connect to MongoDB (optimized for Vercel serverless)
-const connectDB = async () => {
-    // If connection is established or establishing, return
-    if (mongoose.connection.readyState >= 1) return;
-    
-    // Attempt connection
-    await mongoose.connect(process.env.MONGO_URI, {
-        serverSelectionTimeoutMS: 5000 // Timeout early so we don't wait 10000ms
-    });
-    console.log('✅ MongoDB connected successfully');
-};
-
-// Wrap app to connect before each request (needed for Vercel serverless)
-const handler = async (req, res) => {
-    try {
-        await connectDB();
-    } catch (err) {
-        console.error('❌ MongoDB connection error:', err.message);
-        return res.status(500).json({ success: false, message: 'Database connection failed' });
-    }
-    return app(req, res);
-};
-
 // For local development: start the server normally
 if (require.main === module) {
     connectDB()
@@ -66,4 +66,4 @@ if (require.main === module) {
 }
 
 // Export for Vercel serverless
-module.exports = handler;
+module.exports = app;

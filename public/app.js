@@ -1,5 +1,7 @@
 // ===== CONFIGURATION =====
-const API_BASE = '/api/students';
+// IMPORTANT: Replace this with your actual Vercel backend URL (e.g., 'https://student-api.vercel.app')
+const BACKEND_URL = 'https://student-managment-system-qsiw-git-main-santhosh-9110s-projects.vercel.app';
+const API_BASE = `${BACKEND_URL}/api/students`;
 let currentPage = 1;
 let deleteTargetId = null;
 let debounceTimer = null;
@@ -69,7 +71,7 @@ function showToast(message, type = 'success') {
 // ===== SERVER HEALTH =====
 async function checkHealth() {
     try {
-        const res = await fetch('/api/health');
+        const res = await fetch(`${BACKEND_URL}/api/health`);
         const data = await res.json();
         const dot = document.querySelector('.status-dot');
         const text = document.querySelector('.status-text');
