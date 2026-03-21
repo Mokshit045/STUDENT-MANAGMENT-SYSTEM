@@ -159,7 +159,7 @@ function renderTable(students) {
     tbody.innerHTML = students.map(s => {
         const badgeClass = { Active: 'badge-active', Inactive: 'badge-inactive', Graduated: 'badge-graduated', Suspended: 'badge-suspended' }[s.status] || 'badge-inactive';
         return `
-    <tr onclick="viewStudent('${s._id}')">
+    <tr onclick="viewStudent('${s.id}')">
       <td>
         <div class="student-cell">
           ${makeAvatar(s.name)}
@@ -176,13 +176,13 @@ function renderTable(students) {
       <td><span class="badge ${badgeClass}">${s.status}</span></td>
       <td>
         <div class="action-btns" onclick="event.stopPropagation()">
-          <button class="icon-btn view-btn" title="View" onclick="viewStudent('${s._id}')">
+          <button class="icon-btn view-btn" title="View" onclick="viewStudent('${s.id}')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
-          <button class="icon-btn edit-btn" title="Edit" onclick="editStudent('${s._id}')">
+          <button class="icon-btn edit-btn" title="Edit" onclick="editStudent('${s.id}')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           </button>
-          <button class="icon-btn del-btn" title="Delete" onclick="openDeleteModal('${s._id}')">
+          <button class="icon-btn del-btn" title="Delete" onclick="openDeleteModal('${s.id}')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
           </button>
         </div>
@@ -250,7 +250,7 @@ async function editStudent(id) {
         const { student: s } = await res.json();
         resetForm();
         navigateTo('add');
-        document.getElementById('studentId').value = s._id;
+        document.getElementById('studentId').value = s.id;
         document.getElementById('formTitle').textContent = 'Edit Student';
         document.getElementById('formSubtitle').textContent = 'Update the student details below';
         document.getElementById('submitBtn').innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/><polyline points="7,3 7,8 15,8"/></svg> Update Student`;
