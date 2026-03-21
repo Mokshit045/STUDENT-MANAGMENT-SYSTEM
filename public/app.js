@@ -31,7 +31,7 @@ function navigateTo(page) {
     if (el) el.classList.remove('hidden');
     if (nav) nav.classList.add('active');
     document.getElementById('pageTitle').textContent =
-        page === 'dashboard' ? 'Dashboard' : page === 'students' ? 'All Students' : 'Add Student';
+        page === 'dashboard' ? 'Dashboard' : page === 'students' ? 'All Students' : page === 'admin' ? 'Admin Contact' : 'Add Student';
     if (page === 'dashboard') loadDashboard();
     if (page === 'students') loadStudents();
     if (page === 'add') resetForm();
