@@ -28,12 +28,15 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Connect to MongoDB (cached for serverless environments)
-let isConnected = false;
+// Connect to MongoDB (optimized for Vercel serverless)
 const connectDB = async () => {
-    if (isConnected) return;
-    await mongoose.connect(process.env.MONGO_URI);
-    isConnected = true;
+    // If connection is established or establishing, return
+    if (mongoose.connection.readyState >= 1) return;
+    
+    // Attempt connection
+    await mongoose.connect(process.env.MONGO_URI, {
+        serverSelectionTimeoutMS: 5000 // Timeout early so we don't wait 10000ms
+    });
     console.log('✅ MongoDB connected successfully');
 };
 
