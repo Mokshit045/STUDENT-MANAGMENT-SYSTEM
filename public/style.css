@@ -666,8 +666,7 @@ textarea { resize: vertical; min-height: 80px; }
 
 /* ===== STUDENT DETAIL ===== */
 .detail-header {
-  background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(168,85,247,0.1));
-  padding: 28px;
+  background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(168,85,247,0.1), padding: 28px;
   border-radius: var(--radius) var(--radius) 0 0;
   display: flex; align-items: center; gap: 18px;
   border-bottom: 1px solid var(--border);
