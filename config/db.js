@@ -13,5 +13,11 @@ const pool = mysql.createPool({
     queueLimit: 0
 });
 
+console.log('Database Pool Created:');
+console.log('- Host:', process.env.DB_HOST || 'localhost (default)');
+console.log('- User:', process.env.DB_USER || 'root (default)');
+console.log('- Database:', process.env.DB_NAME || 'student_mgmt (default)');
+console.log('- SSL:', process.env.DB_HOST !== 'localhost' ? 'Enabled' : 'Disabled');
+
 module.exports = pool;
 
