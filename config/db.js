@@ -10,7 +10,8 @@ const pool = mysql.createPool({
     ssl: (process.env.DB_HOST && process.env.DB_HOST !== 'localhost') || (process.env.MYSQLHOST && process.env.MYSQLHOST !== 'localhost') ? { rejectUnauthorized: false } : false,
     waitForConnections: true,
     connectionLimit: 10,
-    queueLimit: 0
+    queueLimit: 0,
+    timezone: '+05:30'
 });
 
 console.log('Database Pool Created:');
