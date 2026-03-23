@@ -147,6 +147,7 @@ body {
   font-weight: 700;
   background: linear-gradient(135deg, var(--primary-light), var(--purple));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   white-space: nowrap;
 }
@@ -1142,39 +1143,42 @@ textarea {
 
 /* ===== STUDENT DETAIL ===== */
 .detail-header {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.1), padding: 28px;
-      border-radius: var(--radius) var(--radius) 0 0;
-      display: flex; align-items: center; gap: 18px;
-      border-bottom: 1px solid var(--border);
-  }
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(168, 85, 247, 0.1));
+  padding: 28px;
+  border-radius: var(--radius) var(--radius) 0 0;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 1px solid var(--border);
+}
 
-  .detail-avatar {
-    width: 64px; height: 64px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.5rem; font-weight: 700;
-    flex-shrink: 0;
-  }
+.detail-avatar {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; font-weight: 700;
+  flex-shrink: 0;
+}
 
-  .detail-name {
-    font-size: 1.2rem; font-weight: 700; margin-bottom: 4px;
-  }
+.detail-name {
+  font-size: 1.2rem; font-weight: 700; margin-bottom: 4px;
+}
 
-  .detail-sub {
-    font-size: 0.85rem; color: var(--text-secondary);
-  }
+.detail-sub {
+  font-size: 0.85rem; color: var(--text-secondary);
+}
 
-  .detail-body {
-    padding: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-  }
+.detail-body {
+  padding: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
 
-  .detail-item label {
-    font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px;
-  }
+.detail-item label {
+  font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px;
+}
 
-  .detail-item p {
-    font-size: 0.9rem; font-weight: 500;
-  }
+.detail-item p {
+  font-size: 0.9rem; font-weight: 500;
+}
 
   /* ===== ADMIN PROFILE ===== */
   .admin-profile-container {
