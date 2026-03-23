@@ -340,6 +340,42 @@ document.getElementById('confirmDelete').addEventListener('click', async () => {
     }
 });
 
+// ===== ADMIN CONTACT FORM =====
+document.getElementById('adminContactForm')?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    const originalBtnHtml = btn.innerHTML;
+
+    const body = {
+        name: document.getElementById('contact-name').value.trim(),
+        email: document.getElementById('contact-email').value.trim(),
+        message: document.getElementById('contact-msg').value.trim(),
+    };
+
+    btn.disabled = true;
+    btn.innerHTML = `<div class="loader" style="width:18px;height:18px;border-width:2px;margin:0"></div> Sending...`;
+
+    try {
+        const res = await fetch(`${BACKEND_URL}/api/contact`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        if (data.success) {
+            showToast(data.message, 'success');
+            e.target.reset();
+        } else {
+            showToast(data.message || 'Failed to send message', 'error');
+        }
+    } catch {
+        showToast('Network error. Is the server running?', 'error');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalBtnHtml;
+    }
+});
+
 // Close modals on backdrop click
 document.getElementById('deleteModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeDeleteModal(); });
 document.getElementById('viewModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeViewModal(); });

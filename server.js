@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const nodemailer = require('nodemailer');
 const db = require('./config/db');
 
 const app = express();
@@ -17,6 +18,39 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/api/students', require('./routes/students'));
+
+// Contact Form Route
+app.post('/api/contact', async (req, res) => {
+    const { name, email, message } = req.body;
+
+    if (!name || !email || !message) {
+        return res.status(400).json({ success: false, message: 'All fields are required.' });
+    }
+
+    try {
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: process.env.EMAIL_USER,
+            subject: `New Contact Form Submission from ${name}`,
+            text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+            replyTo: email
+        };
+
+        await transporter.sendMail(mailOptions);
+        res.json({ success: true, message: 'Message sent successfully!' });
+    } catch (err) {
+        console.error('Email Error:', err);
+        res.status(500).json({ success: false, message: 'Failed to send message. Please try again later.' });
+    }
+});
 
 // Health check
 app.get('/api/health', async (req, res) => {
