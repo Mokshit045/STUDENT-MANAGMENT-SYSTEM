@@ -58,6 +58,7 @@ app.get('/api/health', async (req, res) => {
         await db.query('SELECT 1');
         res.json({ success: true, message: 'Server & MySQL connected', time: new Date() });
     } catch (err) {
+        console.error('Health Check Error:', err);
         res.status(500).json({ success: false, message: 'MySQL connection failed', error: err.message });
     }
 });

@@ -48,6 +48,7 @@ router.get('/', async (req, res) => {
             currentPage: Number(page)
         });
     } catch (err) {
+        console.error('API Error (students):', err);
         res.status(500).json({ success: false, message: err.message });
     }
 });
@@ -59,6 +60,7 @@ router.get('/:id', async (req, res) => {
         if (rows.length === 0) return res.status(404).json({ success: false, message: 'Student not found' });
         res.json({ success: true, student: rows[0] });
     } catch (err) {
+        console.error('API Error (students):', err);
         res.status(500).json({ success: false, message: err.message });
     }
 });
@@ -105,6 +107,7 @@ router.delete('/:id', async (req, res) => {
         if (result.affectedRows === 0) return res.status(404).json({ success: false, message: 'Student not found' });
         res.json({ success: true, message: 'Student deleted successfully' });
     } catch (err) {
+        console.error('API Error (students):', err);
         res.status(500).json({ success: false, message: err.message });
     }
 });
@@ -129,6 +132,7 @@ router.get('/stats/summary', async (req, res) => {
             }
         });
     } catch (err) {
+        console.error('API Error (students):', err);
         res.status(500).json({ success: false, message: err.message });
     }
 });
