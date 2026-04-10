@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
         }
 
         const whereSql = whereClauses.length > 0 ? `WHERE ${whereClauses.join(' AND ')}` : '';
-        
+
         // Get total count
         const [countRes] = await db.execute(`SELECT COUNT(*) as total FROM students ${whereSql}`, params);
         const total = countRes[0].total;
@@ -46,6 +46,31 @@ router.get('/', async (req, res) => {
             total,
             pages: Math.ceil(total / Number(limit)),
             currentPage: Number(page)
+        });
+    } catch (err) {
+        console.error('API Error (students):', err);
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+// ✅ GET stats — MUST be before /:id to avoid route conflict
+router.get('/stats/summary', async (req, res) => {
+    try {
+        const [[{ total }]] = await db.execute('SELECT COUNT(*) as total FROM students');
+        const [[{ active }]] = await db.execute('SELECT COUNT(*) as active FROM students WHERE status = "Active"');
+        const [byDept] = await db.execute('SELECT department as _id, COUNT(*) as count FROM students GROUP BY department ORDER BY count DESC');
+        const [byYear] = await db.execute('SELECT year as _id, COUNT(*) as count FROM students GROUP BY year ORDER BY _id ASC');
+        const [[{ avgGpa }]] = await db.execute('SELECT AVG(gpa) as avgGpa FROM students');
+
+        res.json({
+            success: true,
+            stats: {
+                total,
+                active,
+                byDept,
+                byYear,
+                avgGpa: Number(avgGpa || 0).toFixed(2)
+            }
         });
     } catch (err) {
         console.error('API Error (students):', err);
@@ -106,31 +131,6 @@ router.delete('/:id', async (req, res) => {
         const [result] = await db.execute('DELETE FROM students WHERE id = ?', [req.params.id]);
         if (result.affectedRows === 0) return res.status(404).json({ success: false, message: 'Student not found' });
         res.json({ success: true, message: 'Student deleted successfully' });
-    } catch (err) {
-        console.error('API Error (students):', err);
-        res.status(500).json({ success: false, message: err.message });
-    }
-});
-
-// GET stats
-router.get('/stats/summary', async (req, res) => {
-    try {
-        const [[{ total }]] = await db.execute('SELECT COUNT(*) as total FROM students');
-        const [[{ active }]] = await db.execute('SELECT COUNT(*) as active FROM students WHERE status = "Active"');
-        const [byDept] = await db.execute('SELECT department as _id, COUNT(*) as count FROM students GROUP BY department ORDER BY count DESC');
-        const [byYear] = await db.execute('SELECT year as _id, COUNT(*) as count FROM students GROUP BY year ORDER BY _id ASC');
-        const [[{ avgGpa }]] = await db.execute('SELECT AVG(gpa) as avgGpa FROM students');
-
-        res.json({
-            success: true,
-            stats: {
-                total,
-                active,
-                byDept,
-                byYear,
-                avgGpa: Number(avgGpa || 0).toFixed(2)
-            }
-        });
     } catch (err) {
         console.error('API Error (students):', err);
         res.status(500).json({ success: false, message: err.message });
