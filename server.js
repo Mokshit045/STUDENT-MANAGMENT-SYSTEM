@@ -5,28 +5,7 @@ const path = require('path');
 const nodemailer = require('nodemailer');
 const db = require('./config/db');
 
-db.query(`
-  CREATE TABLE IF NOT EXISTS students (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    full_name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE,
-    roll_number VARCHAR(50) UNIQUE,
-    phone VARCHAR(15),
-    department VARCHAR(50),
-    year VARCHAR(20),
-    gender VARCHAR(10),
-    gpa DECIMAL(3,1),
-    status VARCHAR(20),
-    address TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  )
-`, (err) => {
-  if (err) {
-    console.error("❌ Table creation error:", err);
-  } else {
-    console.log("✅ students table ready");
-  }
-});
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
